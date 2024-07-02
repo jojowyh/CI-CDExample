@@ -21,7 +21,7 @@ public interface SizeMapper {
      * @return
      */
     @Select("select * from trade_platform.size where goods_id = #{goodsId}")
-    List<Size> queryById(Long goodsId);
+    Size queryById(Long goodsId);
 
 
 

@@ -58,6 +58,10 @@ public class GoodsServiceImpl implements GoodsService {
             //根据类别id返回类别名
             Category category =categoryMapper.queryById(good.getCategoryId());
             goodsBaseVo.setCategoryName(category.getCategoryName());
+            //根据商品id返回规格和库存
+            Size size = sizeMapper.queryById(good.getGoodsId());
+            BeanUtils.copyProperties(size,goodsBaseVo);
+
             //根据商品id返回路径
             Img img = imgMapper.queryByDefault(good.getGoodsId(), 1);
             BeanUtils.copyProperties(img,goodsBaseVo);
@@ -86,7 +90,7 @@ public class GoodsServiceImpl implements GoodsService {
         List <Img> imgList=imgMapper.queryById(goodsId);
 
         //查询对应商品规格
-        List<Size> sizeList = sizeMapper.queryById(goodsId);
+        Size sizeList = sizeMapper.queryById(goodsId);
 
         GoodsDetailsVO goodsDetailsVO = new GoodsDetailsVO();
         if (goods == null){
@@ -101,7 +105,7 @@ public class GoodsServiceImpl implements GoodsService {
 
         goodsDetailsVO.setCategoryName(category.getCategoryName());
         goodsDetailsVO.setImgs(imgList);
-        goodsDetailsVO.setSizes(sizeList);
+        //goodsDetailsVO.setSizes(sizeList);
 
         return Result.success(goodsDetailsVO);
     }
@@ -119,7 +123,7 @@ public class GoodsServiceImpl implements GoodsService {
         //根据分类名查询分类id
         Category category = categoryMapper.queryByName(insertGoodsDTO.getCategoryName());
         if (insertGoodsDTO.getCategoryName() != null && category != null){
-            goods.setGoodsId(category.getCategoryId());
+
             goods.setCategoryId(category.getCategoryId());
         }
 
@@ -143,15 +147,7 @@ public class GoodsServiceImpl implements GoodsService {
         imgList.get(0).setIsDefault(1);
         imgMapper.insertBatch(imgList);
 
-        //向规格表插入多条数据
-        List<Size> sizeList = insertGoodsDTO.getSizeList();
-        if (!sizeList.isEmpty()){
-            sizeList.forEach(size -> {
-                size.setGoodsId(goodsId);
-            });
-        }
 
-        sizeMapper.insertBatch(sizeList);
         return Result.success("插入成功");
     }
 

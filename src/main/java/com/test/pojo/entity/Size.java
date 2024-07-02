@@ -16,6 +16,8 @@ public class Size implements Serializable {
     //库存
     private Integer inventory;
 
+    private Long categoryId;
+
 
 
     private static final long serialVersionUID = 1L;

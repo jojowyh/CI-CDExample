@@ -19,4 +19,8 @@ public class GoodsBaseVo implements Serializable {
     private String CategoryName;
 
     private String src;
+
+    private String sizeName;
+
+    private Integer inventory;
 }
