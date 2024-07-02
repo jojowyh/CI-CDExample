@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.mapper.CartMapper">
+
+    <resultMap id="BaseResultMap" type="com.test.pojo.entity.Cart">
+            <id property="cartId" column="cate_id" jdbcType="BIGINT"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="goodsId" column="good_id" jdbcType="BIGINT"/>
+            <result property="goodNumber" column="good_number" jdbcType="INTEGER"/>
+            <result property="sizeId" column="size_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        cart_id,user_id,goods_id,
+        good_number,size_id
+    </sql>
+    <select id="queryListByCondition" resultType="com.test.pojo.entity.Cart">
+        select * from trade_platform.cart
+        <where>
+            <if test="userId != null">
+              and  user_id  = #{userId}
+            </if>
+            <if test="goodsId != null">
+              and  goods_id  = #{goodsId}
+            </if>
+            <if test="sizeId != null">
+                and  size_id  = #{sizeId}
+            </if>
+        </where>
+    </select>
+</mapper>

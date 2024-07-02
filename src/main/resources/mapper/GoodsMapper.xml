@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.test.mapper.GoodsMapper">
 
-    <resultMap id="BaseResultMap" type="com.test.pojo.Goods">
+    <resultMap id="BaseResultMap" type="com.test.pojo.entity.Goods">
             <id property="goodsId" column="goods_id" jdbcType="BIGINT"/>
             <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
             <result property="goodsPrice" column="goods_price" jdbcType="DOUBLE"/>
@@ -19,4 +19,22 @@
         goods_desc,category_id,create_time,
         update_time
     </sql>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="goodsId">
+        insert into trade_platform.goods
+            (goods_name, goods_price, goods_desc, category_id, create_time,update_time)
+        values
+            (#{goodsName},#{goodsPrice},#{goodsDesc},#{categoryId},#{createTime},#{updateTime})
+    </insert>
+    <update id="update">
+        update goods
+        <set>
+            <if test=" goodsName!=null">goods_name=#{goodsName},</if>
+            <if test=" goodsPrice!=null">goods_price=#{goodsPrice},</if>
+            <if test=" goodsDesc!=null">goods_desc=#{goodsDesc},</if>
+            <if test=" categoryId!=null">category_id=#{categoryId},</if>
+            <if test=" updateTime!=null">update_time=#{updateTime},</if>
+        </set>
+        where goods_id=#{goodsId}
+    </update>
+
 </mapper>

@@ -5,5 +5,8 @@ spring:
     username: root
     password: 'thb147258369.'
 mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.test.pojo.entity
   configuration:
     map-underscore-to-camel-case: true
+
