@@ -33,6 +33,8 @@ public interface SizeMapper {
 
     @Select("select * from size where category_id =#{categoryId}" )
     List<Size> queryBycategoryId(Long categoryId);
+
+    void insert(List<Size> sizeNameList);
 }
 
 

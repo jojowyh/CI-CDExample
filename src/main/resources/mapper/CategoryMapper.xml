@@ -15,6 +15,11 @@
         category_id,category_name,create_time,
         update_time
     </sql>
+    <insert id="save" useGeneratedKeys="true" keyProperty="categoryId">
+       insert into category (category_name,category_grade, create_time, update_time)
+            VALUES (#{categoryName},#{categoryGrade},#{createTime},#{updateTime})
+    </insert>
+
     <select id="queryByName" resultType="com.test.pojo.entity.Category">
         select * from category where category_Name =#{categoryName}
     </select>

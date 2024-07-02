@@ -13,7 +13,12 @@
     <sql id="Base_Column_List">
         size_id,size_name,category_id
     </sql>
-
+    <insert id="insert">
+        insert into size (size_name,category_id) values
+        <foreach collection="sizeNameList" separator="," item="item">
+            (#{item.sizeName},#{item.categoryId})
+        </foreach>
+    </insert>
 
 
 </mapper>

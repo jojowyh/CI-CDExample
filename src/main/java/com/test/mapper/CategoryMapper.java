@@ -19,8 +19,7 @@ public interface CategoryMapper {
      * @param category
      * @return
      */
-    @Insert("insert into category (category_name,category_grade, create_time, update_time) " +
-            "VALUES (#{categoryName},#{categoryGrade},#{createTime},#{updateTime})")
+
     void save(Category category);
     /**
      * 查询分类

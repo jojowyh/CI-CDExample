@@ -1,6 +1,8 @@
 package com.test.service;
 
 import com.test.common.Result;
+import com.test.pojo.DTO.InsertCategoryDTO;
+import com.test.pojo.VO.CategoryVO;
 import com.test.pojo.entity.Category;
 
 import java.util.List;
@@ -10,10 +12,10 @@ public interface CategoryService {
     /**
      * 添加分类
      *
-     * @param category
+     * @param insertCategoryDTO
      * @return
      */
-    Result save(Category category);
+    Result save(InsertCategoryDTO insertCategoryDTO);
 
 
     /**
@@ -41,5 +43,5 @@ public interface CategoryService {
      * @param categoryId
      * @return
      */
-    Result queryById(Long categoryId);
+    Result<CategoryVO> queryById(Long categoryId);
 }
