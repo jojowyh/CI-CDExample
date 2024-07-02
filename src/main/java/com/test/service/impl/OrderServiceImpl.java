@@ -127,8 +127,8 @@ public class OrderServiceImpl implements OrderService {
         for (QueryOneOrderVO queryOneOrderVO : queryOneOrderVOList) {
             Size size = new Size();
             size.setSizeId(queryOneOrderVO.getSizeId());
-            size.setGoodsId(queryOneOrderVO.getGoodsId());
-            size = sizeMapper.query(size);
+            //size.setGoodsId(queryOneOrderVO.getGoodsId());
+            //size = sizeMapper.query(size);
 
             queryOneOrderVO.setSize_name(size.getSizeName());
         }

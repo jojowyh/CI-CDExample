@@ -19,7 +19,13 @@ public class Goods implements Serializable {
 
     private String goodsDesc;
 
+
     private Long categoryId;
+
+    private Long sizeId;
+    //库存
+    private Integer inventory;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" ,timezone = "GMT+8")
     private Date createTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" ,timezone = "GMT+8")

@@ -12,10 +12,6 @@ public class Size implements Serializable {
 
     private String sizeName;
 
-    private Long goodsId;
-    //库存
-    private Integer inventory;
-
     private Long categoryId;
 
 

@@ -2,7 +2,9 @@ package com.test.controller;
 
 import com.test.common.Result;
 import com.test.mapper.GoodsMapper;
+import com.test.mapper.SizeMapper;
 import com.test.pojo.entity.Category;
+import com.test.pojo.entity.Size;
 import com.test.service.CategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,6 +21,9 @@ import java.util.List;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private SizeMapper sizeMapper;
 
 
     /**
@@ -82,5 +87,13 @@ public class CategoryController {
     public Result queryById(@PathVariable Long category_id){
         log.info("按照分类id查询分类信息,category_id:{}",category_id);
         return categoryService.queryById(category_id);
+    }
+
+    @GetMapping("querySize/{categoryId}")
+    @ApiOperation("查询分类下的规格")
+    public Result<List<Size>> querySize(@PathVariable Long categoryId){
+        log.info("查询分类下的规格,category_id:{}",categoryId);
+        List<Size>sizeList=sizeMapper.queryBycategoryId(categoryId);
+        return Result.success(sizeList);
     }
 }

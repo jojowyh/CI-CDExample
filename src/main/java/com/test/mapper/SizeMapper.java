@@ -1,7 +1,6 @@
 package com.test.mapper;
 
 import com.test.pojo.entity.Size;
-import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -15,37 +14,25 @@ import java.util.List;
 */
 @Mapper
 public interface SizeMapper {
+
     /**
-     * 查询对应商品规格
-     * @param goodsId
+     * 根据规格id查询规格
+     * @param sizeId
      * @return
      */
-    @Select("select * from trade_platform.size where goods_id = #{goodsId}")
-    Size queryById(Long goodsId);
-
-
+    @Select("select * from size where size_id = #{sizeId}")
+    Size queryById(Long sizeId);
 
     /**
-     * 添加对应商品规格
-     * @param sizeList
-     */
-    void insertBatch(List<Size> sizeList);
-
-    /**
-     * 根据商品id删除商品规格
-     * @param goodsId
-     */
-    @Delete("delete from size where goods_id = #{goodsId}")
-    void delete(Long goodsId);
-
-    /**
-     * 根据条件查询一个规格
+     * 根据规格名和分类id查询规格id
      * @param size
      * @return
      */
-
-    @Select("select * from trade_platform.size where size_id = #{sizeId} and goods_id = #{goodsId}")
+    @Select("select * from size where size_name = #{sizeName} and category_id = #{categoryId}")
     Size query(Size size);
+
+    @Select("select * from size where category_id =#{categoryId}" )
+    List<Size> queryBycategoryId(Long categoryId);
 }
 
 

@@ -35,6 +35,7 @@ public interface GoodsMapper {
      * 向商品表里添加一条数据
      * @param goods
      */
+
     void insert(Goods goods);
 
     /**

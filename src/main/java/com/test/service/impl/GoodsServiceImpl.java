@@ -58,13 +58,15 @@ public class GoodsServiceImpl implements GoodsService {
             //根据类别id返回类别名
             Category category =categoryMapper.queryById(good.getCategoryId());
             goodsBaseVo.setCategoryName(category.getCategoryName());
-            //根据商品id返回规格和库存
-            Size size = sizeMapper.queryById(good.getGoodsId());
-            BeanUtils.copyProperties(size,goodsBaseVo);
+
+            //根据规格id返回规格名
+            Size size = sizeMapper.queryById(good.getSizeId());
+            goodsBaseVo.setSizeName(size.getSizeName());
 
             //根据商品id返回路径
             Img img = imgMapper.queryByDefault(good.getGoodsId(), 1);
             BeanUtils.copyProperties(img,goodsBaseVo);
+
             goodsBaseVos.add(goodsBaseVo);
             }
         );
@@ -89,8 +91,9 @@ public class GoodsServiceImpl implements GoodsService {
         //查询对应的商品图片
         List <Img> imgList=imgMapper.queryById(goodsId);
 
-        //查询对应商品规格
-        Size sizeList = sizeMapper.queryById(goodsId);
+        //根据规格id返回规格名
+        Size size = sizeMapper.queryById(goods.getSizeId());
+
 
         GoodsDetailsVO goodsDetailsVO = new GoodsDetailsVO();
         if (goods == null){
@@ -105,7 +108,7 @@ public class GoodsServiceImpl implements GoodsService {
 
         goodsDetailsVO.setCategoryName(category.getCategoryName());
         goodsDetailsVO.setImgs(imgList);
-        //goodsDetailsVO.setSizes(sizeList);
+        goodsDetailsVO.setSizeName(size.getSizeName());
 
         return Result.success(goodsDetailsVO);
     }
@@ -123,8 +126,16 @@ public class GoodsServiceImpl implements GoodsService {
         //根据分类名查询分类id
         Category category = categoryMapper.queryByName(insertGoodsDTO.getCategoryName());
         if (insertGoodsDTO.getCategoryName() != null && category != null){
-
             goods.setCategoryId(category.getCategoryId());
+        }
+
+        //根据商品规格名和类别id查询商品规格id
+        if (insertGoodsDTO.getCategoryName() !=null && category !=null){
+            Size size = new Size();
+            size.setCategoryId(category.getCategoryId());
+            size.setSizeName(insertGoodsDTO.getSizeName());
+            size=sizeMapper.query(size);
+            goods.setSizeId(size.getSizeId());
         }
 
         goods.setCreateTime(DateUtils.now());
@@ -139,7 +150,6 @@ public class GoodsServiceImpl implements GoodsService {
 
         if (!imgList.isEmpty()){
             imgList.forEach(img -> {
-                Img img1 = new Img();
                 img.setIsDefault(0);
                 img.setGoodsId(goodsId);
             });
@@ -158,6 +168,22 @@ public class GoodsServiceImpl implements GoodsService {
         //修改对应商品表
         Goods goods=new Goods();
         BeanUtils.copyProperties(insertGoodsDTO,goods);
+        Category category = categoryMapper.queryByName(insertGoodsDTO.getCategoryName());
+
+        //根据类别名字查询类别id
+        if (insertGoodsDTO.getCategoryName() != null && category != null){
+            goods.setCategoryId(category.getCategoryId());
+        }
+
+        //根据商品规格名和类别id查询商品规格id
+        if (insertGoodsDTO.getCategoryName() !=null && category !=null){
+            Size size = new Size();
+            size.setCategoryId(category.getCategoryId());
+            size.setSizeName(insertGoodsDTO.getSizeName());
+            size=sizeMapper.query(size);
+            goods.setSizeId(size.getSizeId());
+        }
+
         goods.setUpdateTime(DateUtils.now());
 
         goodsMapper.update(goods);
@@ -170,27 +196,13 @@ public class GoodsServiceImpl implements GoodsService {
         if (imgList !=null && imgList.size()>0){
             imgList.forEach(img -> {
                 img.setGoodsId(goodsId);
-
+                img.setIsDefault(0);
             });
         }
-
+        imgList.get(0).setIsDefault(1);
         imgMapper.insertBatch(imgList);
 
-
-        //修改对应的规格表
-        sizeMapper.delete(goodsId);
-
-        List<Size> sizeList = insertGoodsDTO.getSizeList();
-        if (sizeList !=null && sizeList.size()>0){
-            sizeList.forEach(size -> {
-                size.setGoodsId(goodsId);
-            });
-        }
-
-        sizeMapper.insertBatch(sizeList);
-
-
-        return Result.success();
+        return Result.success("修改成功");
     }
     /**
      * 删除商品
@@ -201,8 +213,7 @@ public class GoodsServiceImpl implements GoodsService {
     @Transactional
     public Result delete(Long goodsId) {
 
-        //删除对应规格表
-        sizeMapper.delete(goodsId);
+
         //删除对应图片表
         imgMapper.delete(goodsId);
         //删除对应商品表

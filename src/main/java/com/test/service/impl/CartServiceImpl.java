@@ -62,16 +62,16 @@ public class CartServiceImpl implements CartService {
         //TODO 查库存表与当前数目比较
         Size size = new Size();
         BeanUtils.copyProperties(updateCartDTO,size);
-        Size querySize=sizeMapper.query(size);
+        //Size querySize=sizeMapper.query(size);
 
         Cart cart = new Cart();
         BeanUtils.copyProperties(updateCartDTO,cart);
 
         Cart queryCart = cartMapper.queryByCondition(cart);
 
-        if (querySize.getInventory() <= queryCart.getGoodNumber()){
-           return   Result.error("商品数量超出库存数量，无法添加");
-        }
+//        if (querySize.getInventory() <= queryCart.getGoodNumber()){
+//           return   Result.error("商品数量超出库存数量，无法添加");
+//        }
 
         //购物车中商品数加一
 

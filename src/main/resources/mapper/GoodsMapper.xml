@@ -10,21 +10,23 @@
             <result property="goodsPrice" column="goods_price" jdbcType="DOUBLE"/>
             <result property="goodsDesc" column="goods_desc" jdbcType="VARCHAR"/>
             <result property="categoryId" column="category_id" jdbcType="BIGINT"/>
+            <result property="sizeId" column="size_id" jdbcType="BIGINT"/>
+            <result property="inventory" column="inventory" jdbcType="INTEGER"/>
             <result property="createTime" column="create_time" jdbcType="DATE"/>
             <result property="updateTime" column="update_time" jdbcType="DATE"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         goods_id,goods_name,goods_price,
-        goods_desc,category_id,create_time,
+        goods_desc,category_id,size_id,inventory,create_time,
         update_time
     </sql>
     <insert id="insert" useGeneratedKeys="true" keyProperty="goodsId">
-        insert into trade_platform.goods
-            (goods_name, goods_price, goods_desc, category_id, create_time,update_time)
-        values
-            (#{goodsName},#{goodsPrice},#{goodsDesc},#{categoryId},#{createTime},#{updateTime})
+        insert into goods (goods_name, goods_price, goods_desc, category_id, size_id, inventory, create_time, update_time)
+        VALUES (#{goodsName},#{goodsPrice},#{goodsDesc},#{categoryId},#{sizeId},#{inventory},#{createTime},#{updateTime})
     </insert>
+
+
     <update id="update">
         update goods
         <set>
@@ -32,6 +34,8 @@
             <if test=" goodsPrice!=null">goods_price=#{goodsPrice},</if>
             <if test=" goodsDesc!=null">goods_desc=#{goodsDesc},</if>
             <if test=" categoryId!=null">category_id=#{categoryId},</if>
+            <if test=" sizeId!=null">size_id=#{sizeId},</if>
+            <if test=" inventory!=null">inventory=#{inventory},</if>
             <if test=" updateTime!=null">update_time=#{updateTime},</if>
         </set>
         where goods_id=#{goodsId}

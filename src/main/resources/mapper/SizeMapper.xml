@@ -6,21 +6,14 @@
 
     <resultMap id="BaseResultMap" type="com.test.pojo.entity.Size">
             <id property="sizeId" column="size_id" jdbcType="BIGINT"/>
+            <result property="categoryId" column="category_id" jdbcType="BIGINT"/>
             <result property="sizeName" column="size_name" jdbcType="VARCHAR"/>
-            <result property="goodsId" column="goods_id" jdbcType="BIGINT"/>
-            <result property="inventory" column="inventory" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        size_id,size_name,goods_id,
-        inventory
+        size_id,size_name,category_id
     </sql>
-    <insert id="insertBatch">
-        insert into trade_platform.size (size_name, goods_id,inventory) values
-        <foreach collection="sizeList" separator="," item="item">
-            (#{item.sizeName},#{item.goodsId},#{item.inventory})
-        </foreach>
-    </insert>
+
 
 
 </mapper>

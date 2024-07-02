@@ -21,10 +21,12 @@ public class GoodsDetailsVO implements Serializable {
 
     private Long categoryId;
 
-    private String categoryName;
+    private String sizeName;
+    //库存
+    private Integer inventory;
 
+    private String categoryName;
 
     List <Img> imgs =new ArrayList<>();
 
-    List <Size> sizes=new ArrayList<>();
 }
