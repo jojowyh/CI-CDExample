@@ -2,6 +2,7 @@ package com.test.mapper;
 
 import com.test.pojo.DTO.UpdateOrderDTO;
 import com.test.pojo.entity.Orders;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -28,6 +29,9 @@ public interface OrdersMapper {
 
     @Select("select * from trade_platform.orders where orders_id=#{ordersId}" )
     Orders queryById(Long ordersId);
+
+    @Delete("delete from trade_platform.orders where orders_id = #{ordersId}")
+    void delete(Long ordersId);
 }
 
 
