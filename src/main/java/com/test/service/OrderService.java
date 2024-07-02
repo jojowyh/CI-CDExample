@@ -29,4 +29,11 @@ public interface OrderService {
      * @return
      */
     Result<List<QueryOneOrderVO>> queryOne(Long ordersID);
+
+    /**
+     * 删除订单
+     * @param ordersId
+     * @return
+     */
+    Result delete(Long ordersId);
 }

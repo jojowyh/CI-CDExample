@@ -137,5 +137,18 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    /**
+     * 删除订单
+     * @param ordersId
+     * @return
+     */
+    @Override
+    @Transactional
+    public Result delete(Long ordersId) {
+        ordersDetailMapper.deleteByOrdersId(ordersId);
+        ordersMapper.delete(ordersId);
+        return Result.success("删除成功");
+    }
+
 
 }

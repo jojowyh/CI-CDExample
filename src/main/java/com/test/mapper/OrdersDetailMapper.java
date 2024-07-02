@@ -1,6 +1,7 @@
 package com.test.mapper;
 
 import com.test.pojo.entity.OrdersDetail;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -17,6 +18,10 @@ public interface OrdersDetailMapper {
 
     @Select("select * from trade_platform.orders_detail where orders_id =#{ordersId}")
     List<OrdersDetail> query(Long ordersId);
+
+
+    @Delete("delete from trade_platform.orders_detail where orders_id = #{ordersId}")
+    void deleteByOrdersId(Long ordersId);
 
     /**
     * @author 86187

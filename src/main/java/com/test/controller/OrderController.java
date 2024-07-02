@@ -60,4 +60,15 @@ public class OrderController {
         return orderService.queryOne(ordersId);
     }
 
+    /**
+     * 删除订单
+     * @param ordersId
+     * @return
+     */
+    @DeleteMapping("/delete/{ordersId}")
+    @ApiOperation("删除订单")
+    public Result delete(@PathVariable Long ordersId){
+        log.info("删除订单，订单id:{}",ordersId);
+        return orderService.delete(ordersId);
+    }
 }
