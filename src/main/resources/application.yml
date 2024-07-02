@@ -3,10 +3,11 @@ spring:
     url: jdbc:mysql://localhost:3306/trade_platform
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: 'thb147258369.'
+    password: 88888888aaa
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.test.pojo.entity
   configuration:
     map-underscore-to-camel-case: true
-
+server:
+  port: 9090
