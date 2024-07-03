@@ -22,8 +22,6 @@ import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
-    public  static  final  String ALREADY_EXISTS="类别已存在";
-
 
     @Autowired
     private CategoryMapper categoryMapper;
@@ -92,6 +90,7 @@ public class CategoryServiceImpl implements CategoryService {
      * @return
      */
     @Override
+    @Transactional
     public Result update(CategoryDTO categoryDTO) {
 
         Category category = new Category();
@@ -101,13 +100,18 @@ public class CategoryServiceImpl implements CategoryService {
         sizeMapper.delete(categoryDTO.getCategoryId());
 
         List<Size> sizeList=new ArrayList<>();
-        List<String> sizeNameList = categoryDTO.getSizeNameList();
-        if (sizeNameList.isEmpty()){
+        List<Size> sizesList = categoryDTO.getSizeList();
+        if (sizesList.isEmpty()){
             return Result.success("修改分类成功(无规格)");
         }
-        sizeNameList.forEach(sizeName->{
-            Size size = new Size();
-            size.setSizeName(sizeName);
+
+        List<Goods> goods = goodsMapper.queryByCategoryId(categoryDTO.getCategoryId());
+        if (!goods.isEmpty()){
+            return Result.error("不能修改，规格下有商品");
+        }
+
+        sizesList.forEach(size->{
+
             size.setCategoryId(categoryDTO.getCategoryId());
             sizeList.add(size);
         });
@@ -129,6 +133,10 @@ public class CategoryServiceImpl implements CategoryService {
         List<Goods> goods = goodsMapper.queryByCategoryId(categoryId);
         if (!goods.isEmpty()){
             return Result.error("分类下存在商品");
+        }
+        List<Goods> goodsList = goodsMapper.queryByCategoryId(categoryId);
+        if (!goodsList.isEmpty()){
+            return Result.error("规格下存在商品");
         }
         sizeMapper.delete(categoryId);
         categoryMapper.delete(categoryId);

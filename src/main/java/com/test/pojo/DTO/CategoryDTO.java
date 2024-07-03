@@ -18,6 +18,7 @@ public class CategoryDTO implements Serializable {
 
     private Integer categoryGrade;
 
-    private List<String>sizeNameList=new ArrayList<>();
+    private List<Size>sizeList=new ArrayList<>();
+
 
 }

@@ -67,7 +67,7 @@ public class CategoryController {
     @PutMapping("/update")
     @ApiOperation("修改分类")
     public Result update(@RequestBody CategoryDTO categoryDTO){
-        log.info("修改分类");
+        log.info("修改分类:{}",categoryDTO);
          return categoryService.update(categoryDTO);
     }
 
