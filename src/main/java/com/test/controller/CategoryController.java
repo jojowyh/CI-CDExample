@@ -4,6 +4,7 @@ import com.test.common.Result;
 import com.test.mapper.CategoryMapper;
 import com.test.mapper.GoodsMapper;
 import com.test.mapper.SizeMapper;
+import com.test.pojo.DTO.CategoryDTO;
 import com.test.pojo.DTO.InsertCategoryDTO;
 import com.test.pojo.VO.CategoryVO;
 import com.test.pojo.entity.Category;
@@ -60,14 +61,14 @@ public class CategoryController {
 
     /**
      * 修改分类
-     * @param category
+     * @param  categoryDTO
      * @return
      */
     @PutMapping("/update")
     @ApiOperation("修改分类")
-    public Result update(@RequestBody Category category){
+    public Result update(@RequestBody CategoryDTO categoryDTO){
         log.info("修改分类");
-         return categoryService.update(category);
+         return categoryService.update(categoryDTO);
     }
 
     /**

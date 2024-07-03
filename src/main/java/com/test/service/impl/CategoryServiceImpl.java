@@ -5,6 +5,7 @@ import com.test.common.Result;
 import com.test.mapper.CategoryMapper;
 import com.test.mapper.GoodsMapper;
 import com.test.mapper.SizeMapper;
+import com.test.pojo.DTO.CategoryDTO;
 import com.test.pojo.DTO.InsertCategoryDTO;
 import com.test.pojo.VO.CategoryVO;
 import com.test.pojo.entity.Category;
@@ -87,14 +88,33 @@ public class CategoryServiceImpl implements CategoryService {
 
     /**
      * 修改分类
-     * @param category
+     * @param categoryDTO
      * @return
      */
     @Override
-    public Result update(Category category) {
+    public Result update(CategoryDTO categoryDTO) {
+
+        Category category = new Category();
+        BeanUtils.copyProperties(categoryDTO,category);
         category.setUpdateTime(DateUtils.now());
         categoryMapper.update(category);
-        return Result.success("更新成功");
+        sizeMapper.delete(categoryDTO.getCategoryId());
+
+        List<Size> sizeList=new ArrayList<>();
+        List<String> sizeNameList = categoryDTO.getSizeNameList();
+        if (sizeNameList.isEmpty()){
+            return Result.success("修改分类成功(无规格)");
+        }
+        sizeNameList.forEach(sizeName->{
+            Size size = new Size();
+            size.setSizeName(sizeName);
+            size.setCategoryId(categoryDTO.getCategoryId());
+            sizeList.add(size);
+        });
+        //对规格表进行操作
+        sizeMapper.insert(sizeList);
+
+        return Result.success("修改分类成功(有规格)");
     }
     /**
      * 删除分类
@@ -102,6 +122,7 @@ public class CategoryServiceImpl implements CategoryService {
      * @return
      */
     @Override
+    @Transactional
     public Result delete(Long categoryId) {
         Goods good = new Goods();
         good.setCategoryId(categoryId);
@@ -109,8 +130,9 @@ public class CategoryServiceImpl implements CategoryService {
         if (!goods.isEmpty()){
             return Result.error("分类下存在商品");
         }
+        sizeMapper.delete(categoryId);
         categoryMapper.delete(categoryId);
-        return Result.success("删除成功");
+        return Result.success("删除成功,删除了分类及分类下的规格");
     }
 
     /**

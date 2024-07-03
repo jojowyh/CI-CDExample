@@ -1,6 +1,7 @@
 package com.test.service;
 
 import com.test.common.Result;
+import com.test.pojo.DTO.CategoryDTO;
 import com.test.pojo.DTO.InsertCategoryDTO;
 import com.test.pojo.VO.CategoryVO;
 import com.test.pojo.entity.Category;
@@ -26,10 +27,10 @@ public interface CategoryService {
 
     /**
      * 修改分类
-     * @param category
+     * @param categoryDTO
      * @return
      */
-    Result update(Category category);
+    Result update(CategoryDTO categoryDTO);
 
     /**
      * 删除分类

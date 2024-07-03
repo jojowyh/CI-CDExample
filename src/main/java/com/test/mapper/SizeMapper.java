@@ -1,6 +1,7 @@
 package com.test.mapper;
 
 import com.test.pojo.entity.Size;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -35,6 +36,10 @@ public interface SizeMapper {
     List<Size> queryBycategoryId(Long categoryId);
 
     void insert(List<Size> sizeNameList);
+
+
+    @Delete("delete from size where  category_id =#{categoryId}")
+    void delete(Long categoryId);
 }
 
 
