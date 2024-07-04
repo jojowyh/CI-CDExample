@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-circular-references: true
   datasource:
     url: jdbc:mysql://localhost:3306/trade_platform
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -11,3 +13,6 @@ mybatis:
     map-underscore-to-camel-case: true
 server:
   port: 8080
+
+
+

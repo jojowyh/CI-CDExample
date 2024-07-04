@@ -97,7 +97,7 @@ public class CategoryServiceImpl implements CategoryService {
         BeanUtils.copyProperties(categoryDTO,category);
         category.setUpdateTime(DateUtils.now());
         categoryMapper.update(category);
-        sizeMapper.delete(categoryDTO.getCategoryId());
+
 
         List<Size> sizeList=new ArrayList<>();
         List<Size> sizesList = categoryDTO.getSizeList();
@@ -111,10 +111,10 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         sizesList.forEach(size->{
-
             size.setCategoryId(categoryDTO.getCategoryId());
             sizeList.add(size);
         });
+        sizeMapper.delete(categoryDTO.getCategoryId());
         //对规格表进行操作
         sizeMapper.insert(sizeList);
 

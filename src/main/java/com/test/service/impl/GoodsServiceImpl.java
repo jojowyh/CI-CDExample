@@ -1,19 +1,23 @@
 package com.test.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.test.common.DateUtils;
 import com.test.common.Result;
 import com.test.mapper.CategoryMapper;
 import com.test.mapper.GoodsMapper;
 import com.test.mapper.ImgMapper;
 import com.test.mapper.SizeMapper;
+import com.test.pojo.DTO.GoodPageDTO;
 import com.test.pojo.DTO.InsertGoodsDTO;
+import com.test.pojo.VO.GoodsPageVO;
 import com.test.pojo.entity.Category;
 import com.test.pojo.entity.Size;
 import com.test.pojo.VO.GoodsBaseVo;
 import com.test.pojo.VO.GoodsDetailsVO;
 import com.test.pojo.entity.Goods;
 import com.test.pojo.entity.Img;
-import com.test.pojo.list.ImgList;
+import com.test.pojo.result.PageResult;
 import com.test.service.GoodsService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,14 +48,23 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     @Transactional
-    public Result<List<GoodsBaseVo>> query() {
+    public PageResult query(GoodPageDTO goodPageDTO) {
 
-        List<Goods> goods=goodsMapper.query();
+        PageHelper.startPage(goodPageDTO.getPage(), goodPageDTO.getPageSize());
+
+
+        Page<GoodsPageVO> page =goodsMapper.pageQuery(goodPageDTO);
+        System.out.println(page.getResult());
+        return new PageResult(page.getTotal(),page.getResult());
+     /*   List<Goods> goods=goodsMapper.query();
 
         List<GoodsBaseVo> goodsBaseVos = new ArrayList<>();
         if (goods.isEmpty()){
             return Result.error("查询商品为空");
         }
+
+
+
         goods.forEach(good -> {
             GoodsBaseVo goodsBaseVo = new GoodsBaseVo();
             BeanUtils.copyProperties(good,goodsBaseVo);
@@ -69,10 +82,11 @@ public class GoodsServiceImpl implements GoodsService {
 
             goodsBaseVos.add(goodsBaseVo);
             }
-        );
+        );*/
 
 
-        return Result.success(goodsBaseVos);
+
+        //return Result.success(goodsBaseVos);
     }
     /**
      * 根据id查询对应商品详情

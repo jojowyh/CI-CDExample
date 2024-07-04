@@ -3,10 +3,12 @@ package com.test.controller;
 
 import com.test.common.Result;
 
+import com.test.pojo.DTO.GoodPageDTO;
 import com.test.pojo.DTO.InsertGoodsDTO;
 import com.test.pojo.VO.GoodsBaseVo;
 import com.test.pojo.VO.GoodsDetailsVO;
 import com.test.pojo.entity.Goods;
+import com.test.pojo.result.PageResult;
 import com.test.service.GoodsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,11 +32,11 @@ public class GoodsController {
      * 查询所有商品
      * @return
      */
-    @GetMapping
-    @ApiOperation("查询所有商品")
-    public Result<List<GoodsBaseVo>> query(){
-        log.info("查询所有商品:");
-        return goodsService.query();
+    @PostMapping("/query")
+    @ApiOperation("分页查询商品")
+    public PageResult query(@RequestBody GoodPageDTO goodPageDTO){
+        log.info("分页查询商品:{}",goodPageDTO);
+        return goodsService.query(goodPageDTO);
     }
 
     /**

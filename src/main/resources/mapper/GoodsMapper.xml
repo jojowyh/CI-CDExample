@@ -40,5 +40,21 @@
         </set>
         where goods_id=#{goodsId}
     </update>
+    <select id="pageQuery" resultType="com.test.pojo.VO.GoodsPageVO">
+        SELECT g.*,c.category_name,s.size_name,i.src FROM goods g
+            LEFT OUTER JOIN category c ON g.category_id = c.category_id
+            LEFT OUTER JOIN size s ON s.size_id = g.size_id
+            LEFT OUTER JOIN img i ON g.goods_id = i.goods_id
+
+        <where>
+            <if test="goodsName != null">
+                and g.goods_name like concat('%',#{goodsName},'%')
+            </if>
+            <if test="categoryName != null">
+                and c.category_name like concat('%',#{categoryName},'%')
+            </if>
+            and i.is_default =1
+        </where>
+    </select>
 
 </mapper>

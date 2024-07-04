@@ -1,10 +1,12 @@
 package com.test.mapper;
 
+import com.github.pagehelper.Page;
+import com.test.pojo.DTO.GoodPageDTO;
+import com.test.pojo.VO.GoodsPageVO;
 import com.test.pojo.entity.Goods;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -58,6 +60,14 @@ public interface GoodsMapper {
      */
     @Delete("delete from trade_platform.goods where goods_id = #{goodsId}")
     void delete(Long goodsId);
+
+    /**
+     * 商品分页查询
+     *
+     * @param goodPageDTO
+     * @return
+     */
+    Page<GoodsPageVO> pageQuery(GoodPageDTO goodPageDTO);
 }
 
 

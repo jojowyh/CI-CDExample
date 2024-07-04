@@ -48,6 +48,16 @@ public class UserServiceImpl implements UserService {
         //判断该手机号是否已注册
         User Newuser = new User();
         Newuser.setUserPhone(userRegisterDTO.getUserPhone());
+        if (userRegisterDTO.getUserName().isEmpty()) {
+            return Result.error("用户名为空");
+        }
+        if (userRegisterDTO.getUserPhone().isEmpty()) {
+            return Result.error("手机号为空");
+        }
+        if (userRegisterDTO.getUserPwd().isEmpty()) {
+            return Result.error("密码为空");
+        }
+
         User userByCondition=userMapper.getByCondition(Newuser);
         if (userByCondition != null ){
             return Result.error("该用户已注册");
