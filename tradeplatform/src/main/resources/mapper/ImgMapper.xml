@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.mapper.ImgMapper">
+
+    <resultMap id="BaseResultMap" type="com.test.pojo.entity.Img">
+            <id property="imgId" column="img_id" jdbcType="BIGINT"/>
+            <result property="src" column="src" jdbcType="VARCHAR"/>
+            <result property="goodsId" column="goods_id" jdbcType="BIGINT"/>
+            <result property="isDefault" column="is_default" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        img_id,src,goods_id,
+        is_default
+    </sql>
+    <insert id="insertBatch">
+        insert into trade_platform.img (src, goods_id,is_default) values
+           <foreach collection="imgList" separator="," item="item">
+               (#{item.src},#{item.goodsId},#{isDefault})
+           </foreach>
+    </insert>
+
+
+</mapper>

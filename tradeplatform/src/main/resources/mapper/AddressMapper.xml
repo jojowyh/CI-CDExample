@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.mapper.AddressMapper">
+
+    <resultMap id="BaseResultMap" type="com.test.pojo.entity.Address">
+            <id property="addressId" column="address_id" jdbcType="BIGINT"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="receiver" column="receiver" jdbcType="VARCHAR"/>
+            <result property="phone" column="phone" jdbcType="VARCHAR"/>
+            <result property="addDetail" column="add_detail" jdbcType="VARCHAR"/>
+            <result property="isDefaul" column="is_defaul" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        address_id,user_id,receiver,
+        phone,add_detail,is_defaul
+    </sql>
+    <select id="queryByCondition" resultType="com.test.pojo.entity.Address">
+        select * from trade_platform.address
+        <where>
+            <if test="userId != null ">
+               and  user_id= #{userId}
+            </if>
+            <if test="userId != null ">
+                and user_id= #{userId}
+            </if>
+        </where>
+    </select>
+</mapper>
